@@ -1,0 +1,33 @@
+ 
+/* Seletor de cor nas configurações da página */
+#colors i.check {
+	display: none;
+}
+
+#colors .selected i.check {
+	display: inherit;
+}
+
+/* Frames */
+.frame {
+	position: absolute;
+}
+
+.ui.segment {
+	margin-bottom: 0px;
+}
+
+.ui.vertical.icon.buttons, .ui.icon.button {
+	position: absolute;
+	top: 0px;
+	right: -30px;
+	display: none;
+}
+
+.frame.normal:hover .ui.vertical.icon.buttons {
+	display: block;
+}
+
+.frame.editing:hover .ui.icon.button {
+	display: block;
+}

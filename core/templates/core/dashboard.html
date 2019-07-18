@@ -1,0 +1,254 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	
+	<title>Loneliness</title>
+	
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+	<link rel="stylesheet" href="{% static "core/dashboard.css" %}">
+	
+</head>
+<body class="pushable" onload="load()">
+
+	<!-- Configurações -->
+	<div class="ui modal" id="settings">
+		<div class="header">
+			<i class="cog icon"></i>Configurações da Página
+		</div>
+		<div class="content">
+			<div class="ui form">
+				<div class="field">
+					<label>Nome da página</label>
+					<input type="text" id="name">
+				</div>
+				<div class="field">
+					<label>Descrição (opcional)</label>
+					<input type="text" id="description">
+				</div>
+				<div class="field">
+					<label>Tipo de página</label>
+					<div class="ui selection dropdown">
+						<input type="hidden" name="type" value="0">
+						<i class="dropdown icon"></i>
+						<div class="text">Público</div>
+						<div class="menu">
+							<div class="item activate selected" data-value="0">Público</div>
+							<div class="item disabled" data-value="1">Amigos</div>
+							<div class="item disabled" data-value="2">Privado</div>
+						</div>
+					</div>
+				</div>
+				<div class="field">
+					<label>Layout</label>
+					<div class="ui selection dropdown">
+						<input type="hidden" name="type" value="0">
+						<i class="dropdown icon"></i>
+						<div class="text">Livre</div>
+						<div class="menu">
+							<div class="item active selected" data-value="0">Livre</div>
+							<div class="item disabled" data-value="1">Grid</div>
+							<div class="item disabled" data-value="2">Artigo</div>
+						</div>
+					</div>
+				</div>
+				<div class="inline fields">
+					<label for="background">Background:</label>
+					<div class="field" onclick="selectColor()" id="cor radio button">
+						<div class="ui radio checkbox">
+							<input type="radio" name="background" tabindex="0" class="hidden" checked>
+							<label>Cor</label>
+						</div>
+					</div>
+					<div class="field" id="imagem radio button"><!-- onclick="selectPicture()" -->
+						<div class="ui radio checkbox disabled">
+							<input type="radio" name="background" tabindex="0" class="hidden">
+							<label>Imagem</label>
+						</div>
+					</div>
+				</div>
+				<div id="colors">
+					<i class="icons selected" id="#FFFFFF">
+						<i class="circle outline icon"></i>
+						<i class="check icon"></i>
+					</i>
+					<i class="icons" id="#DB2828">
+						<i class="circle red icon"></i>
+						<i class="check icon"></i>
+					</i>
+					<i class="icons" id="#F2711C">
+						<i class="circle orange icon"></i>
+						<i class="check icon"></i>
+					</i>
+					<i class="icons" id="#FBBD08">
+						<i class="circle yellow icon"></i>
+						<i class="check icon"></i>
+					</i>
+					<i class="icons" id="#B5CC18">
+						<i class="circle olive icon"></i>
+						<i class="check icon"></i>
+					</i>
+					<i class="icons" id="#21BA45">
+						<i class="circle green icon"></i>
+						<i class="check icon"></i>
+					</i>
+					<i class="icons" id="#00B5AD">
+						<i class="circle teal icon"></i>
+						<i class="check icon"></i>
+					</i>
+					<i class="icons" id="#2185D0">
+						<i class="circle blue icon"></i>
+						<i class="check icon"></i>
+					</i>
+					<i class="icons" id="#6435C9">
+						<i class="circle violet icon"></i>
+						<i class="check icon"></i>
+					</i>
+					<i class="icons" id="#A333C8">
+						<i class="circle purple icon"></i>
+						<i class="check icon"></i>
+					</i>
+					<i class="icons" id="#E03997">
+						<i class="circle pink icon"></i>
+						<i class="check icon"></i>
+					</i>
+					<i class="icons" id="#A5673F">
+						<i class="circle brown icon"></i>
+						<i class="check icon"></i>
+					</i>
+					<i class="icons" id="#767676">
+						<i class="circle grey icon"></i>
+						<i class="check icon"></i>
+					</i>
+					<i class="icons" id="#1B1C1D">
+						<i class="circle black icon"></i>
+						<i class="check inverted icon"></i>
+					</i>
+				</div>
+				<div id="pictures" style="display:none">
+				
+					<img class="ui medium right spaced image" src="https://semantic-ui.com//images/wireframe/image.png" id="preview">
+					
+					<div class="ui vertical labeled icon buttons" style="position:absolute;bottom:40px;">
+						<button class="ui button">
+							<i class="images icon"></i>
+							Escolher da Galeria
+						</button>
+						<button class="ui button">
+							<i class="upload icon"></i>
+							Upload
+						</button>
+						<button class="ui black button">Pesquisar no Unsplash</button>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<div class="actions">
+			<div class="ui left floated inverted red button" onclick="deletePage()">Delete Page</div>
+			<div class="ui cancel button" onclick="cancelPageSettings()">Cancel</div>
+			<div class="ui black ok button" onclick="updatePage()">OK</div>
+		</div>
+	</div>
+	
+	<!-- Nova Página -->
+	<div class="ui mini modal" id="new-page">
+		<div class="header">
+			Nova Página
+		</div>
+		<div class="content">
+			<div class="ui form">
+				<div class="inline fields">
+					<div class="field">
+						<label>Nome da Página</label>
+						<input type="text" id="page name input">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="actions">
+			<div class="ui cancel negative button">Cancel</div>
+			<div class="ui ok positive button" onclick="createPage()">OK</div>
+		</div>
+	</div>
+	
+	<!-- Menu Lateral -->
+	<div class="ui visible inverted left vertical sidebar menu">
+	
+		<div class="item">
+			<a class="ui logo icon image" href="#">
+				<img src="{% static "core/crow-grey-silhouette.svg" %}" style="width:40px;height:40px">
+			</a>
+			<a href="#" style="margin-left:10px">
+				<b>Loneliness</b>
+			</a>
+		</div>
+		
+		<div class="item">
+			<div class="ui dropdown">
+				<img class="ui avatar image" src="https://semantic-ui.com/images/avatar/large/elliot.jpg">
+				<span><span id="username"></span>
+					<i class="dropdown icon"></i>
+				</span>
+				<div class="menu">
+					<div class="item">
+						Configurações da conta
+					</div>
+					<div class="item">
+						Ajuda
+					</div>
+					<div class="item" onclick="logout()">
+						<span style="color:crimson">Log Out</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<a class="item" onclick="settings()">
+			<i class="cog icon"></i>
+			<b>Configurações</b>
+		</a>
+		
+		<a class="item" onclick="createFrame()">
+			<i class="plus circle icon"></i>
+			<b>Adicionar Frame</b>
+		</a>
+		
+		<a class="item" onclick="newPage()">
+			<i class="plus square icon"></i>
+			<b>Nova Página</b>
+		</a>
+		
+		<div class="item">
+			<div class="header">Páginas</div>
+			<div class="menu" id="pages"></div>
+		</div>
+		
+		<div class="item" onclick="closeBar()" style="position:absolute;bottom:0px;right:0px;cursor:pointer">
+			<i class="big angle double left icon"></i>
+        </div>
+
+	</div>
+	
+	<!-- Pusher -->
+	<div class="pusher" id="root">
+		<!-- Site content -->
+	</div>
+	
+	{% csrf_token %}
+	
+	<!-- JQuery -->
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
+	<!-- Semantic UI -->
+	<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+	<!-- JQuery UI -->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<!-- CK Editor -->
+	<script src="https://cdn.ckeditor.com/ckeditor5/12.1.0/balloon/ckeditor.js"></script>
+	<!-- Funcionalidades do Dashboard -->
+	<script src="{% static "core/dashboard.js" %}"></script>
+</body>
+</html>

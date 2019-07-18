@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Logon :: Loneliness</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+    <style>
+        body > .grid {
+            height: 100%
+        }
+        .image {
+            margin-top: -100px;
+        }
+        .column {
+            max-width: 450px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="ui middle aligned center aligned grid">
+        <div class="column">
+            <h2 class="ui image header">
+				{% load static %}
+                <img src="{% static "core/crow-grey-silhouette.svg" %}" class="image">
+                <div class="content">
+                    Embrace your Loneliness
+                </div>
+            </h2>
+            <form class="ui large form">
+                <div class="ui left aligned stacked segment">
+                    <div class="field">
+						<label>Username</label>
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input type="text" name="username" placeholder="Username" id="id_username">
+                        </div>
+                    </div>
+                    <div class="field">
+						<label>Email</label>
+                        <div class="ui left icon input">
+                            <i class="envelope outline icon"></i>
+                            <input type="text" name="email" placeholder="Email address" id="id_email">
+                        </div>
+                    </div>
+                    <div class="field">
+						<label>Password</label>
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input type="password" name="password" placeholder="Password" id="id_password">
+                        </div>
+                    </div>
+                    <div class="field">
+						<label>Repeat password</label>
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input type="password" name="password" placeholder="Password">
+                        </div>
+                    </div>
+                    
+                    <div class="ui fluid large black submit button">Sign Up for Loneliness</div>
+
+                </div>
+
+                <div class="ui error message"></div>
+
+            </form>
+        </div>
+    </div>
+    
+    {% csrf_token %}
+	
+	<script>
+		function logon() {
+			let user = {};
+			user.username = document.getElementById("id_username").value;
+			user.email = document.getElementById("id_email").value;
+			user.password = document.getElementById("id_password").value;
+			let csrftoken = $("[name=csrfmiddlewaretoken]").val();
+			
+			let request = new XMLHttpRequest();
+			request.onreadystatechange = function() {
+				if (this.readyState == 4) {
+					user = JSON.parse(this.responseText);
+					window.location.href = '/login/';
+				}
+			}
+			request.open("POST", "/api/auth/register/", true);
+			request.setRequestHeader("X-CSRFToken", csrftoken);
+			request.setRequestHeader("Content-Type", "application/json");
+			request.send(JSON.stringify(user));
+		}
+	</script>
+    
+</body>
+</html> 

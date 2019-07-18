@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login :: Loneliness</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    
+    <style>
+		body > .grid {
+			height: 100%
+		}
+		.image {
+			margin-top: -100px;
+		}
+		.column {
+			max-width: 450px;
+		}
+	</style>
+	<script>
+	/*
+		$(document)
+            .ready(function() {
+                $('.ui.form')
+                    .form({
+                        fields: {
+                            email: {
+                                identifier : 'username',
+                                rules: [
+                                    {
+                                        type : 'empty',
+                                        prompt : 'Please enter your username or email'
+                                    },
+                                ]
+                            },
+                            password: {
+                                identifier : 'password',
+                                rules : [
+                                    {
+                                        type : 'empty',
+                                        prompt : 'Please enter your password'
+                                    },
+                                    {
+                                        type : 'length[6]',
+                                        prompt : 'Your password must be at least 6 characters'
+                                    }
+                                ]
+                            }
+                        }
+                    })
+                    .submit( function ( event ) {
+                        if( $('.ui.form').form('is valid')) {
+							event.preventDefault();
+                        
+                            var
+								$form = $('.ui.form')
+								auth = $form.form('get values')
+							;
+							console.log(auth);
+							
+							var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+							
+							console.log("CSRF Token: " + csrftoken);
+							
+							var request = new XMLHttpRequest();
+							request.onreadystatechange = function() {
+								if (this.readyState == 4) {
+									console.log(this.responseText);
+								}
+							}
+							request.open("POST", "/api/auth/login/", true);
+							//request.open("POST", "/api-token-auth/", true); 
+							
+							request.setRequestHeader("X-CSRFToken", csrftoken);
+							request.setRequestHeader("Content-Type", "application/json");
+							
+							request.send(JSON.stringify(auth));
+							
+                        }
+                        
+                    });
+                ;
+            })
+        ;
+        */
+	</script>
+</head>
+<body>
+
+	<div class="ui middle aligned center aligned grid">
+		<div class="column">
+			<h2 class="ui image header">
+				{% load static %}
+				<img src="{% static "core/crow-grey-silhouette.svg" %}" class="image">
+				<div class="content">
+					Log-in to your Loneliness
+				</div>
+			</h2>
+			<form class="ui large form" action="/api/auth/login/" role="form" method="post">
+				{% csrf_token %}
+				<div class="ui stacked segment">
+					<div class="field">
+						<div class="ui left icon input">
+							<i class="user icon"></i>
+							<input type="text" name="username" placeholder="Username or email address">
+						</div>
+					</div>
+					<div class="field">
+						<div class="ui left icon input">
+							<i class="lock icon"></i>
+							<input type="password" name="password" placeholder="Password">
+						</div>
+					</div>
+					
+					<input class="ui fluid large black submit button" type="submit" value="Log in">
+					
+				</div>
+				
+				<div class="ui error message"></div>
+				
+			</form>
+			
+			<div class="ui message">
+				New to Loneliness? <a href="/logon/">Sign Up</a>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
